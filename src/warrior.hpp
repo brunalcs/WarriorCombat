@@ -20,6 +20,12 @@ class Warrior{
         bool is_alive() const;
 
         void actions_probabilities(int attack_prob, int defend_prob, int heal_prob);
+
+        std::string get_action() const;
+
+        int get_attack_value() const;
+
+        int get_healing_value() const;
 };
 
 #endif

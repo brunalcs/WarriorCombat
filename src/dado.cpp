@@ -1,21 +1,25 @@
 #include "dado.hpp"
+#include <iostream>
 #include <string>
 #include <map>
 #include <random>
+#include <vector>
+#include <algorithm>
+#include <chrono>
 
 std::string Dado::sort_action(const std::map<std::string, int>& probs){
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(1, 10);
+    
+    std::vector<std::string> actions;
+    size_t index = 0;
 
-    int r=dis(gen); //sorteia de um a 100
-    int count=0; //
-
-    for(const auto& p : probs){ //verifica em qual faixa o numero r caiu e define a ação
-        count+=p.second; //guarda a chance (valor da ação)
-        if(r<=count){
-            return p.first; //armazena a ação 
+    for(const auto& p : probs){
+        for(int i = 0; i < p.second; ++i){
+            actions.push_back(p.first);
         }
     }
-    return "attack"; //retorna attack por segurança
+    
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::shuffle(actions.begin(), actions.end(), std::default_random_engine(seed));
+    
+    return actions[index];
 }

@@ -4,8 +4,8 @@
 #include "arena.hpp"
 
 int main() {
-    Warrior w(100,"Conan", 100, 25, 15, 10);
-    Warrior w2(100,"Ares", 100, 25, 15, 10);
+    Warrior w(100,"Conan", 100, 0.2, 0.4, 0.2);
+    Warrior w2(100,"Ares", 100, 0.5, 1, 0.1);
 
     Arena coliseum;
     coliseum.add_warrior(w);
@@ -23,8 +23,8 @@ int main() {
     w2.actions_probabilities(2, 3, 5);
 
     while(w.is_alive() and w2.is_alive()){
-        std::string actionw = Dado::sort_action(w.action_probs);
-        std::string actionw2 = Dado::sort_action(w2.action_probs);
+        std::string actionw = w.get_action();
+        std::string actionw2 = w.get_action();
 
         std::cout << "Acao sorteada [" << "]: " << actionw << "\n";
         std::cout << "Acao sorteada [" << "]: " << actionw2 << "\n";
@@ -33,15 +33,10 @@ int main() {
         coliseum.apply_action(actionw2, w.attack, w2, w);
     }
     if(w.is_alive()){
-        std::cout << "O vencedor foi o guerreiro: " << w.name;
+        std::cout << "O vencedor foi o guerreiro: " << w.name << "\n";
     }else{
-        std::cout << "O vencedor foi o guerreiro: " << w2.name;
+        std::cout << "O vencedor foi o guerreiro: " << w2.name << "\n";
     }
-
-    /*for (int i = 0; i < 10; ++i) { //só pra teste
-        std::string action = Dado::sort_action(w.action_probs);
-        std::cout << "Acao sorteada [" << i + 1 << "]: " << action << "\n";
-    }*/
 
     return 0;
 }

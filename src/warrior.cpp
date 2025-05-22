@@ -1,7 +1,8 @@
 #include "warrior.hpp"
+#include "dado.hpp"
 #include <iostream>
 #include <stdexcept>
-
+#include <string>
 
 //construtor
 Warrior::Warrior(int max_life, const std::string& name, int health, float attack, float defense, float healing)
@@ -21,4 +22,16 @@ void Warrior::actions_probabilities(int attack_prob, int defend_prob, int heal_p
     action_probs["attack"] = attack_prob;
     action_probs["defend"] = defend_prob;
     action_probs["heal"]   = heal_prob;
+}
+
+std::string Warrior::get_action() const{
+    return Dado::sort_action(action_probs);
+}
+
+int Warrior::get_attack_value() const{
+    return static_cast<int>(health * attack);
+}
+
+int Warrior::get_healing_value() const{
+    return static_cast<int>(health * healing);
 }
