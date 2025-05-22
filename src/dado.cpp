@@ -6,7 +6,7 @@
 std::string Dado::sort_action(const std::map<std::string, int>& probs){
     static std::random_device rd;
     static std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(1, 100);
+    std::uniform_int_distribution<> dis(1, 10);
 
     int r=dis(gen); //sorteia de um a 100
     int count=0; //

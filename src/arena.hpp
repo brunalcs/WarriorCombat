@@ -12,7 +12,10 @@ private:
 public:
     Arena(/* args */);
     void add_warrior(const Warrior& warrior);
-    void print_warriors() const;
+
+    void apply_action(std::string action, int value, Warrior& warrior1, Warrior& warrior2);
+
+    void status_warriors() const;
 };
 
 #endif

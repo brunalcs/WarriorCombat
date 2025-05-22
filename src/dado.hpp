@@ -12,8 +12,4 @@ class Dado{
 
 };
 
-
-
-
-
 #endif

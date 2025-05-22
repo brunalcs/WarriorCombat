@@ -22,8 +22,4 @@ class Warrior{
         void actions_probabilities(int attack_prob, int defend_prob, int heal_prob);
 };
 
-
-
-
-
 #endif
