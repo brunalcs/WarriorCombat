@@ -1,9 +1,17 @@
 #include <iostream>
 #include "warrior.hpp"
 #include "dado.hpp"
+#include "arena.hpp"
 
 int main() {
-    Warrior w("Conan", 100, 25, 15, 10);
+    Warrior w(100,"Conan", 100, 25, 15, 10);
+    Warrior w2(100,"Ares", 100, 25, 15, 10);
+
+    Arena arena;
+    arena.add_warrior(w);
+    arena.add_warrior(w2);
+
+    arena.print_warriors();
 
     std::cout << "Nome: " << w.name << "\n";
     std::cout << "Vida: " << w.health << "/" << w.max_life << "\n";

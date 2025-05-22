@@ -15,7 +15,7 @@ class Warrior{
         float healing;
         std::map<std::string, int> action_probs; //armazena as probabalidades de ação de cada indivíduo
     
-        Warrior(const std::string& name, int health, float attack, float defense, float healing);
+        Warrior(int max_life, const std::string& name, int health, float attack, float defense, float healing);
 
         bool is_alive() const;
 
