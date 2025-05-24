@@ -16,6 +16,10 @@ public:
     void apply_action(std::string action, int value, Warrior& warrior1, Warrior& warrior2);
 
     void status_warriors() const;
+    
+    void clear_unused_defenses (Warrior& w1, Warrior& w2, const std::string& action1, const std::string& action2);
+
+    void figth();
 };
 
 #endif

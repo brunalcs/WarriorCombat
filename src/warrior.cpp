@@ -35,3 +35,7 @@ int Warrior::get_attack_value() const{
 int Warrior::get_healing_value() const{
     return static_cast<int>(health * healing);
 }
+
+int Warrior::get_defend_value() const{
+    return static_cast<int>(health*defense);
+}
