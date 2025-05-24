@@ -1,11 +1,23 @@
 #include "arena.hpp"
+#include "dado.hpp"
 #include "warrior.hpp"
 #include <iostream>
+#include <algorithm>
+#include <random>
+#include <chrono>
 
 Arena::Arena() : count_rounds(0){}
 
 void Arena::add_warrior(const Warrior& warrior){
     warriors.push_back(warrior);
+}
+
+int Arena::count_alive() const {
+    int alive = 0;
+    for (const auto& w : warriors) {
+        if (w.is_alive()) ++alive;
+    }
+    return alive;
 }
 
 void Arena::status_warriors() const {
@@ -59,10 +71,16 @@ void Arena::figth(){
         exit(1);
     }
 
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::shuffle(warriors.begin(), warriors.end(), std::default_random_engine(seed));
+    
     Warrior& w = warriors[0];
     Warrior& w2 = warriors[1];
 
-    while(w.is_alive() and w2.is_alive()){
+    while(count_alive() >= 2){
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::shuffle(warriors.begin(), warriors.end(), std::default_random_engine(seed));
+
         count_rounds++;
         std::cout << "\n===== Rodada " << count_rounds << " =====\n";
 

@@ -20,6 +20,8 @@ public:
     void clear_unused_defenses (Warrior& w1, Warrior& w2, const std::string& action1, const std::string& action2);
 
     void figth();
+
+    int count_alive() const;
 };
 
 #endif
