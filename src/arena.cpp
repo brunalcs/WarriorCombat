@@ -39,16 +39,6 @@ void Arena::apply_action(std::string action_w1, std::string action_w2, Warrior& 
         std::cout << warrior1.name << " se curou em " << heal
         << " (vida atual: " << warrior1.health << "/" << warrior1.max_life << ")\n"; 
     } 
-    if(action_w2 == "heal"){
-        int heal = warrior2.get_healing_value(); //calcular valor de cura com base na vida atual
-        warrior2.health += heal; //adiciona o valor de cura a vida atual do guerreiro
-
-        if(warrior2.health > warrior2.max_life){ //garante que a vida não ultrapasse 100
-            warrior2.health = warrior2.max_life;
-        }
-        std::cout << warrior2.name << " se curou em " << heal
-        << " (vida atual: " << warrior2.health << "/" << warrior2.max_life << ")\n"; 
-    } 
     if(action_w1 == "attack"){
         int damage = warrior1.get_attack_value();  //calcular valor de ataque com base na vida atual
 
@@ -61,10 +51,20 @@ void Arena::apply_action(std::string action_w1, std::string action_w2, Warrior& 
             << " causando " << damage << " de dano"
             << " (vida de " << warrior2.name << ": " << warrior2.health << "/" << warrior2.max_life << ")\n";          
     }
+    if(action_w2 == "heal"){
+        int heal = warrior2.get_healing_value(); //calcular valor de cura com base na vida atual
+        warrior2.health += heal; //adiciona o valor de cura a vida atual do guerreiro
+
+        if(warrior2.health > warrior2.max_life){ //garante que a vida não ultrapasse 100
+            warrior2.health = warrior2.max_life;
+        }
+        std::cout << warrior2.name << " se curou em " << heal
+        << " (vida atual: " << warrior2.health << "/" << warrior2.max_life << ")\n"; 
+    } 
     if(action_w2 == "attack"){
         int damage = warrior2.get_attack_value();  //calcular valor de ataque com base na vida atual
         if(action_w1 == "defend"){
-            int reduced_damage =  warrior1.defense * damage; // calcula a defesa considerando a defesa do guerreiro 2
+            int reduced_damage =  (1 - warrior1.defense) * damage; // calcula a defesa considerando a defesa do guerreiro 2
             warrior1.health -= reduced_damage; //aplica o dano a vida do guerreiro 2
         if(warrior1.health < 0){ //garante que o guerreiro não fique com a vida negativa
             warrior1.health = 0;
