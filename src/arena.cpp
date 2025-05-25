@@ -30,14 +30,16 @@ void Arena::status_warriors() const {
 
 void Arena::apply_action(std::string action_w1, std::string action_w2, Warrior& warrior1, Warrior& warrior2){
     if(action_w1 == "heal"){
-        int heal = warrior1.get_healing_value(); //calcular valor de cura com base na vida atual
-        warrior1.health += heal; //adiciona o valor de cura a vida atual do guerreiro
+        if(warrior1.health != 0){
+            int heal = warrior1.get_healing_value(); //calcular valor de cura com base na vida atual
+            warrior1.health += heal; //adiciona o valor de cura a vida atual do guerreiro
 
-        if(warrior1.health > warrior1.max_life){ //garante que a vida não ultrapasse 100
-            warrior1.health = warrior1.max_life;
+            if(warrior1.health > warrior1.max_life){ //garante que a vida não ultrapasse 100
+                warrior1.health = warrior1.max_life;
+            }
+            std::cout << warrior1.name << " se curou em " << heal
+            << " (vida atual: " << warrior1.health << "/" << warrior1.max_life << ")\n"; 
         }
-        std::cout << warrior1.name << " se curou em " << heal
-        << " (vida atual: " << warrior1.health << "/" << warrior1.max_life << ")\n"; 
     } 
     if(action_w1 == "attack"){
         int damage = warrior1.get_attack_value();  //calcular valor de ataque com base na vida atual
@@ -52,14 +54,16 @@ void Arena::apply_action(std::string action_w1, std::string action_w2, Warrior& 
             << " (vida de " << warrior2.name << ": " << warrior2.health << "/" << warrior2.max_life << ")\n";          
     }
     if(action_w2 == "heal"){
-        int heal = warrior2.get_healing_value(); //calcular valor de cura com base na vida atual
-        warrior2.health += heal; //adiciona o valor de cura a vida atual do guerreiro
+        if(warrior2.health != 0){
+            int heal = warrior2.get_healing_value(); //calcular valor de cura com base na vida atual
+            warrior2.health += heal; //adiciona o valor de cura a vida atual do guerreiro
 
-        if(warrior2.health > warrior2.max_life){ //garante que a vida não ultrapasse 100
-            warrior2.health = warrior2.max_life;
+            if(warrior2.health > warrior2.max_life){ //garante que a vida não ultrapasse 100
+                warrior2.health = warrior2.max_life;
+            }
+            std::cout << warrior2.name << " se curou em " << heal
+            << " (vida atual: " << warrior2.health << "/" << warrior2.max_life << ")\n"; 
         }
-        std::cout << warrior2.name << " se curou em " << heal
-        << " (vida atual: " << warrior2.health << "/" << warrior2.max_life << ")\n"; 
     } 
     if(action_w2 == "attack"){
         int damage = warrior2.get_attack_value();  //calcular valor de ataque com base na vida atual
