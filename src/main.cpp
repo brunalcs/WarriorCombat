@@ -5,7 +5,7 @@
 
 int main() {
     Warrior w(100,"Conan", 100, 0.2, 0.4, 0.2);
-    Warrior w2(100,"Ares", 100, 0.5, 1, 0.1);
+    Warrior w2(100,"Ares", 100, 0.5, 0.5, 0.1);
 
     Arena coliseum;
     coliseum.add_warrior(w);

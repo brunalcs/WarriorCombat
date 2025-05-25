@@ -28,14 +28,14 @@ void Arena::status_warriors() const {
     std::cout << "\n";
 }
 
-void Arena::clear_unused_defenses(Warrior& w1, Warrior& w2, const std::string& action1, const std::string& action2) {
+/*void Arena::clear_unused_defenses(Warrior& w1, Warrior& w2, const std::string& action1, const std::string& action2) {
     if (action2 != "attack") w1.pending_defense = 0; //limpa a defesa do primeiro guerreiro caso a ação do segundo guerreiro não for ataque
     if (action1 != "attack") w2.pending_defense = 0; //limpa a defesa do segundo guerreiro caso a ação do primeiro guerreiro não for ataque
-}
+}*/
 
 
-void Arena::apply_action(std::string action, int value, Warrior& warrior1, Warrior& warrior2){
-    if(action == "heal"){
+void Arena::apply_action(std::string action_w1, std::string action_w2, Warrior& warrior1, Warrior& warrior2){
+    if(action_w1 == "heal"){
         int heal = warrior1.get_healing_value(); //calcular valor de cura com base na vida atual
         warrior1.health += heal; //adiciona o valor de cura a vida atual do guerreiro
 
@@ -44,24 +44,52 @@ void Arena::apply_action(std::string action, int value, Warrior& warrior1, Warri
         }
         std::cout << warrior1.name << " se curou em " << heal
         << " (vida atual: " << warrior1.health << "/" << warrior1.max_life << ")\n"; 
-    } else if(action == "attack"){
+    } 
+    if(action_w2 == "heal"){
+        int heal = warrior1.get_healing_value(); //calcular valor de cura com base na vida atual
+        warrior2.health += heal; //adiciona o valor de cura a vida atual do guerreiro
+
+        if(warrior2.health > warrior2.max_life){ //garante que a vida não ultrapasse 100
+            warrior2.health = warrior2.max_life;
+        }
+        std::cout << warrior1.name << " se curou em " << heal
+        << " (vida atual: " << warrior1.health << "/" << warrior1.max_life << ")\n"; 
+    } 
+    if(action_w1 == "attack"){
         int damage = warrior1.get_attack_value();  //calcular valor de ataque com base na vida atual
 
-        int reduced_damage = std::max(0, damage - warrior2.pending_defense); // calcula a defesa considerando a defesa pendente do guerreiro 2
-        warrior2.health -= reduced_damage; //aplica o dano a vida do guerreiro 2
-        warrior2.pending_defense = 0; // defesa só vale uma vez
-        
-        if(warrior2.health < 0){ //garante que o guerreiro não fique com a vida negativa
-            warrior2.health = 0;
+        if(action_w2 =="defend" or action_w2 == "heal"){
+            warrior2.health -= damage; //aplica o dano a vida do guerreiro 2
+            
+            if(warrior2.health < 0){ //garante que o guerreiro não fique com a vida negativa
+                warrior2.health = 0;
+            }
+            std::cout << warrior1.name << " atacou " << warrior2.name
+            << " causando " << damage << " de dano"
+            << " (vida de " << warrior2.name << ": " << warrior2.health << "/" << warrior2.max_life << ")\n";   
         }
-       std::cout << warrior1.name << " atacou " << warrior2.name
-          << " causando " << reduced_damage << " de dano"
-          << " (vida de " << warrior2.name << ": " << warrior2.health << "/" << warrior2.max_life << ")\n";
     }
-    else if(action=="defend"){
-        int defend = warrior1.get_defend_value(); //calcula a defesa
-        warrior1.pending_defense=defend; //define o valor da defesa pendente do guerreiro 1 
-        std::cout << warrior1.name << " (valor de defesa: " << defend << ", vida: " << warrior1.health << "/" << warrior1.max_life << ")\n";
+    if(action_w2 == "attack"){
+        int damage = warrior2.get_attack_value();  //calcular valor de ataque com base na vida atual
+        if(action_w1 == "defend"){
+            int reduced_damage =  warrior1.defense * damage; // calcula a defesa considerando a defesa do guerreiro 2
+            warrior1.health -= reduced_damage; //aplica o dano a vida do guerreiro 2
+        if(warrior1.health < 0){ //garante que o guerreiro não fique com a vida negativa
+            warrior1.health = 0;
+        }
+        std::cout << warrior2.name << " atacou " << warrior1.name
+          << " causando " << reduced_damage << " de dano"
+          << " (vida de " << warrior1.name << ": " << warrior1.health << "/" << warrior2.max_life << ")\n";
+        }else if(action_w1 == "heal"){
+            warrior2.health -= damage; //aplica o dano a vida do guerreiro 2
+            
+            if(warrior2.health < 0){ //garante que o guerreiro não fique com a vida negativa
+                warrior2.health = 0;
+            }
+            std::cout << warrior1.name << " atacou " << warrior2.name
+            << " causando " << damage << " de dano"
+            << " (vida de " << warrior2.name << ": " << warrior2.health << "/" << warrior2.max_life << ")\n";   
+        }
     }
 }
 
@@ -90,9 +118,8 @@ void Arena::figth(){
         std::cout << "Acao sorteada [" << w.name << "]: " << actionw << "\n";
         std::cout << "Acao sorteada [" << w2.name << "]: " << actionw2 << "\n";
         
-        apply_action(actionw, w.attack, w, w2);
-        apply_action(actionw2, w2.attack, w2, w);
-        clear_unused_defenses(w, w2, actionw, actionw2); 
+        apply_action(actionw, actionw2, w, w2);
+        //clear_unused_defenses(w, w2, actionw, actionw2); 
         status_warriors();
     }
     std::cout << "\n===== Combate encerrado =====\n";
